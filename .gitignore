@@ -1,0 +1,68 @@
+# dependencies
+/node_modules/
+/.pnp
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/versions
+
+# Next.js and build output
+/.next/
+/out/
+/build/
+/dist/
+/.vercel/
+
+# tests and generated reports
+/coverage/
+/test-results/
+/playwright-report/
+/.e2e-*/
+/.e2e-*-results.json
+
+# local runtime state
+/.minus/
+/userdata/
+/terminals/
+/artifacts/
+/outputs/
+provider-secrets.json
+learning-data.json
+user-configuration.json
+safety-audit*.jsonl
+
+# environment and credentials
+.env*
+!.env.example
+*.pem
+*.key
+credentials.json
+
+# answer, media and production material
+*.pptx
+*.pdf
+*.mp3
+*.mp4
+*.srt
+*.zip
+*.rar
+
+# logs and caches
+*.log
+*.tsbuildinfo
+next-env.d.ts
+.tmp/
+.cache/
+.DS_Store
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# editor and local agent configuration
+/.agents/
+/.codex/
+/.cursor/
+AGENTS.md
