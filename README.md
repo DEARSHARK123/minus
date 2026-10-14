@@ -13,7 +13,7 @@
   ![Tests](https://img.shields.io/badge/tests-Vitest%20%2B%20Playwright-D4A853?style=flat-square)
 </div>
 
-## 为什么是 Minus
+## Minus是什么？
 
 用聊天模型学新东西时，问答很容易散落在不同对话里，很难接上后续的练习和复习。
 
@@ -157,18 +157,6 @@ src/types/        TypeScript 与 Zod 领域模型
 e2e/              Playwright 关键验收流程
 skills/           内置 Skills 内容
 ```
-
-更多说明：
-
-- [产品设计说明](PRODUCT.md)
-- [项目结构与数据流](PROJECT-STRUCTURE.md)
-
-## 当前限制
-
-- 自动化任务仅在 Minus 应用运行期间执行，不安装系统级后台服务。
-- 暂不支持外部日历双向同步与多设备云端同步。
-- 视频模块目前仅支持导入和查看元数据，暂未内置视频播放器。
-- 若模型调用失败或生成格式校验未通过，系统会直接报错提示，不会写入残缺的课程数据。
 
 ## 安全提示
 
