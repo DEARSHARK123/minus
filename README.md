@@ -3,9 +3,9 @@
 
   # Minus
 
-  **Local-first AI learning companion for durable, structured study.**
+  **Local-first AI learning companion for structured study.**
 
-  把一次提问连接成课程、练习、资料、日历与可持续的学习过程。
+  本地优先的 AI 伴学工具：从日常提问生成结构化课程、练习与复习计划。
 
   ![Next.js](https://img.shields.io/badge/Next.js-16-181511?style=flat-square)
   ![React](https://img.shields.io/badge/React-19-4A7FC4?style=flat-square)
@@ -15,9 +15,9 @@
 
 ## 为什么是 Minus
 
-大模型已经能够快速回答问题，但学习往往在答案生成后中断：知识散落在会话中，讲解、练习和计划彼此割裂，模型建议也缺少明确的写入边界。
+用聊天模型学新东西时，问答很容易散落在不同对话里，很难接上后续的练习和复习。
 
-Minus 以普通对话为入口，在用户确认学习目标后，把一次提问转化为可编辑、可持久化、可继续调整的学习闭环：
+Minus 从日常提问出发，在明确学习目标后生成一套可以随时修改、保存在本地的课程与日程：
 
 ```mermaid
 flowchart LR
@@ -31,7 +31,7 @@ flowchart LR
     H --> E
 ```
 
-核心原则是：**提议不等于提交，模型输出不等于应用状态。**
+所有 AI 生成的课纲、资料改动和日程调整都先作为草稿展示，只有你点击确认后才会真正写入本地数据。
 
 ## 主要能力
 
@@ -39,13 +39,13 @@ flowchart LR
 |---|---|
 | 多轮对话 | 流式回答、会话历史、消息编辑与重新生成 |
 | 深入学习 | 学习意图识别、目标澄清、可编辑大纲与确认式建课 |
-| 课程运行时 | 单元讲解、代码示例、练习、追问、来源与学习进度 |
-| 资料库 | 本地资料、文件夹、搜索、归档与课程证据增强 |
-| 学习日历 | 月历、今日任务、计划草案、冲突校验与伴侣对话调整 |
-| Skills / Playbook | 按场景启停、覆盖、排序、预览与恢复 AI 工作规则 |
-| 应用内自动化 | 一次、每日、每周、学习事件和闲置触发，支持幂等与有限重试 |
-| 安全与审计 | Sandbox-first、危险操作确认、密钥隔离和可配置审计策略 |
-| 本机 Agent | 受策略约束的工具执行、暂停、确认、恢复和取消 |
+| 课程运行时 | 单元讲解、代码示例、练习、追问、参考来源与学习进度 |
+| 资料库 | 本地文档管理、全文搜索，支持将本地资料作为课程生成参考 |
+| 学习日历 | 月历、今日任务、计划草案、冲突检查与对话式日程调整 |
+| Skills / Playbook | 按场景启停、覆盖、排序与预览 AI 工作规则 |
+| 应用内提醒与自动化 | 支持按定时（单次/每日/每周）或学习进度触发复习任务 |
+| 安全与审计 | 默认沙箱隔离、高风险操作确认、密钥隔离与本地审计日志 |
+| 本机工具调用 | 受权限策略约束的本地工具执行，支持暂停、确认与取消 |
 
 ## 技术架构
 
@@ -90,9 +90,7 @@ API Key 与学习数据分离，不进入浏览器持久化、普通数据备份
 
 ### Sandbox 与 HITL
 
-工具执行默认进入隔离环境。网络访问、工作区写入、安装依赖、删除覆盖和对外发布使用不同风险分类；需要副作用的操作会暂停执行并请求用户确认。
-
-提升到本机执行环境不代表自动允许所有危险操作，单次授权也只对当前调用生效。
+工具执行默认进入隔离环境。网络访问、工作区写入、安装依赖、删除覆盖和对外发布使用不同风险分类；需要副作用的操作会暂停执行并请求用户确认，单次授权仅对当前调用生效。
 
 ## 技术栈
 
@@ -149,35 +147,31 @@ npm.cmd run package:portable:node
 
 ```text
 src/app/          页面、路由与服务端 API
-src/components/   产品界面与交互组件
+src/components/   界面与交互组件
 src/lib/agents/   学习编排与结构化模型协议
-src/lib/agent/    Agent loop、策略与 HITL
-src/lib/learning/ 课程、资料、日历与本地 Repository
-src/lib/automation/ 应用运行期自动化
+src/lib/agent/    Agent loop、策略与人工确认（HITL）
+src/lib/learning/ 课程、资料、日历与本地存储
+src/lib/automation/ 应用运行期自动化任务
 src/store/        Zustand 状态层
 src/types/        TypeScript 与 Zod 领域模型
 e2e/              Playwright 关键验收流程
 skills/           内置 Skills 内容
 ```
 
-更完整的产品和代码说明：
+更多说明：
 
-- [产品约束](PRODUCT.md)
-- [项目结构](PROJECT-STRUCTURE.md)
+- [产品设计说明](PRODUCT.md)
+- [项目结构与数据流](PROJECT-STRUCTURE.md)
 
-## 当前边界
+## 当前限制
 
-- 自动化只在 Minus 应用运行时执行，不安装系统后台服务。
-- 外部日历双向同步和多设备同步尚未提供。
-- 视频路由目前只诚实展示已导入的元数据，不宣称完整播放器能力。
-- 模型不可用或输出未通过质量门槛时，不会写入伪课程内容或自动推进学习阶段。
+- 自动化任务仅在 Minus 应用运行期间执行，不安装系统级后台服务。
+- 暂不支持外部日历双向同步与多设备云端同步。
+- 视频模块目前仅支持导入和查看元数据，暂未内置视频播放器。
+- 若模型调用失败或生成格式校验未通过，系统会直接报错提示，不会写入残缺的课程数据。
 
 ## 安全提示
 
-- 不要提交 `.env.local`、API Key、认证文件或真实用户数据。
-- 本机工具默认使用 Sandbox；不要在未理解副作用时提升权限。
-- 公开部署前，应另外配置身份认证、速率限制和服务器级数据隔离。
-
----
-
-Minus is an experimental local-first learning system. It prioritizes explicit user control, structured model outputs and durable learning state over autonomous side effects.
+- 不要提交 `.env.local`、API Key、认证文件或个人数据。
+- 本机工具默认在 Sandbox 中执行；请在确认操作影响后再授予本机执行权限。
+- 若需部署到公网环境，请额外配置身份认证、速率限制与服务端数据隔离。
